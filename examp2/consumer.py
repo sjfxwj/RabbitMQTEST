@@ -2,6 +2,7 @@
 # -*- coding:utf-8 -*-
 
 import pika
+import time
 
 connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))  #建立连接
 channel = connection.channel()  #建立管道
@@ -15,9 +16,10 @@ channel.queue_declare(queue='hello2')  #声明从哪个队列里面收消息(既
 
 def callback(ch,method,properties,body):  #回调函数(事件一触发,立即调用一个函数)
     print("-->",ch,method,properties)
+    time.sleep(30)
     print("[x] Received %r "%body)
 
-#函数执行完了,就代表消息处理完毕了,函数没执行完,就代表消息没有处理完.
+#函数执行完了,就代表消息处理完毕了,函数没执行完,就代表消息没有处理完.==>任务没执行完,就丢了??
 
 """
 --> <BlockingChannel impl=<Channel number=1 OPEN conn=<SelectConnection OPEN socket=('127.0.0.1', 38530)->('127.0.0.1', 5672) params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>>> <Basic.Deliver(['consumer_tag=ctag1.e608b73ec97c4504accc7c3295613adb', 'delivery_tag=1', 'exchange=', 'redelivered=False', 'routing_key=hello'])> <BasicProperties>
