@@ -1,0 +1,54 @@
+RabbitMQ                消息队列
+Python中的QUEUE是一样的,都是队列
+
+Python中的两种队列:
+threading QUEUE:仅限于不同线程之间进行数据交互,不能跨进程进行通信.
+进程QUEUE:仅限于父进程与子进程进行数据交互,或者同属于同一父进程下的多个子进程
+之间进行数据交互,同样不能跨进程进行通信.
+即两个不同的Python程序是不能利用进程QUQUE进行交互通信的.
+
+
+问题?如果我们要在各种不同的语言、各个独立的进程之间以生产者、消费者这种队列的模式进行
+数据通信怎么办呢?==>RabbitMQ
+
+
+broker:消息的中间商、代理商,如RabbitMq、ActiveMQ等.
+
+https://www.cnblogs.com/alex3714/p/5248247.html ==> Gevent
+
+RabbitMq是用erlang语言进行开发的.
+
+
+服务启动:service rabbitmq-server start/stop
+
+
+celery:分布式异步队列
+
+
+RabbitMQ内部实际上是维护很多队列的,
+
+def callback(ch,method,properties,body):  #回调函数
+    print("-->",ch,method,properties)
+
+ch为管道的内存对象地址:**
+<BlockingChannel impl=<Channel number=1 OPEN conn=<SelectConnection OPEN socket=('127.0.0.1', 38530)->('127.0.0.1', 5672) params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>>>
+
+method:消息发给谁,发给哪个Queue等基本信息
+<Basic.Deliver(['consumer_tag=ctag1.e608b73ec97c4504accc7c3295613adb', 'delivery_tag=3', 'exchange=', 'redelivered=False', 'routing_key=hello'])>
+
+#下面还用不到:
+<BasicProperties>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
