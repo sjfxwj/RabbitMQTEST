@@ -39,6 +39,39 @@ method:消息发给谁,发给哪个Queue等基本信息
 #下面还用不到:
 <BasicProperties>
 
+问题:假设现在服务端的队列queue里面还有一条消息,但是还没有被客户端处理,结果服务端宕机了,消息还存在吗?
+[root@hadoop11 examp2]# rabbitmqctl list_queues
+Listing queues ...
+Error: unable to connect to node rabbit@hadoop11: nodedown
+
+DIAGNOSTICS
+===========
+
+attempted to contact: [rabbit@hadoop11]
+
+rabbit@hadoop11:
+  * connected to epmd (port 4369) on hadoop11
+  * epmd reports: node 'rabbit' not running at all
+                  no other nodes on hadoop11
+  * suggestion: start the node
+
+current node details:
+- node name: rabbitmqctl5765@hadoop11
+- home dir: /var/lib/rabbitmq
+- cookie hash: +66gGlN81XIsUi+E7nKg8g==
+
+
+结果:[root@hadoop11 examp2]# rabbitmqctl list_queues
+Listing queues ...
+...done.
+
+服务端rabbitmq里面的消息直接没了...
+
+结果:queue没了,消息直接丢失,怎么办呢??===>
+强制将消息里面的东西进行持久化,确保rabbitmq将队列永远的保存着.
+
+
+
 
 
 

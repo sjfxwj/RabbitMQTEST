@@ -12,7 +12,7 @@ channel = connection.channel()  #建立管道
 # We could avoid that if we were sure that the queue already exists. For example if send.py program
 #was run before. But we're not yet sure which program to run first. In such cases it's a good
 # practice to repeat declaring the queue in both programs.
-channel.queue_declare(queue='hello2')  #声明从哪个队列里面收消息(既然队列已经被生产者声明了,为什么我还要声明呢?)
+channel.queue_declare(queue='hello2',durable=True)  #声明从哪个队列里面收消息(既然队列已经被生产者声明了,为什么我还要声明呢?)
 
 def callback(ch,method,properties,body):  #回调函数(事件一触发,立即调用一个函数)
     print("-->",ch,method,properties)
