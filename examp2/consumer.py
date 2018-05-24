@@ -16,8 +16,9 @@ channel.queue_declare(queue='hello2')  #声明从哪个队列里面收消息(既
 
 def callback(ch,method,properties,body):  #回调函数(事件一触发,立即调用一个函数)
     print("-->",ch,method,properties)
-    time.sleep(30)
+    time.sleep(3)
     print("[x] Received %r "%body)
+    ch.basic_ack(delivery_tag=method.delivery_tag)   #传送标签
 
 #函数执行完了,就代表消息处理完毕了,函数没执行完,就代表消息没有处理完.==>任务没执行完,就丢了??
 
@@ -28,7 +29,7 @@ def callback(ch,method,properties,body):  #回调函数(事件一触发,立即�
 channel.basic_consume( #消费消息
                       callback,        #如果收到消息,就调用callback回调函数来处理消息.
                       queue='hello2',  #从哪个队列里面收消息
-                      #no_ack=True     #先忽略 no acknowledgement(不管消息,消费者处理完了,还是没有处理完毕,都不会和生产者进行确认.),RabbitMq默认消息处理完毕之后,就进行确认.
+                      #no_ack=True     #先忽略 no acknowledgement(不管消息,消费者处理完了,还是没有处理完毕,都不会和生产者进行确认.),RabbitMq默认消息处理完毕之后,不会进行消息的确认,需要通过ch.basic_ack(delivery_tag=method.delivery_tag)进行确认.
                       )
 """
 consumer_callback(channel, method, properties, body)

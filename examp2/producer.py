@@ -30,5 +30,19 @@ print("[x] Sent 'Hello World!'")
 connection.close()  #不是将管道关闭,而是将队列关闭???
 
 
+"""
+rabbitmq内部是可以存放很多队列的,如何查看rabbitmq内部已经存放多少队里了呢?
 
+ rabbitmqctl（控制器）:
+ rabbitmq-plugins
+ rabbitmq-server
+[root@hadoop11 sbin]# pwd
+/sbin
+
+[root@hadoop11 examp2]# rabbitmqctl list_queues
+Listing queues ...
+hello   1
+hello2  2(处理完为什么还要两个啊?)待定.....
+...done.
+"""
 
