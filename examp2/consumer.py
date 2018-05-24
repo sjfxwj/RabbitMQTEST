@@ -26,16 +26,22 @@ def callback(ch,method,properties,body):  #回调函数(事件一触发,立即�
 """
 
 channel.basic_consume( #消费消息
-                      callback,       #如果收到消息,就调用callback回调函数来处理消息.
+                      callback,        #如果收到消息,就调用callback回调函数来处理消息.
                       queue='hello2',  #从哪个队列里面收消息
-                      no_ack=True)    #先忽略
-
+                      #no_ack=True     #先忽略 no acknowledgement(不管消息,消费者处理完了,还是没有处理完毕,都不会和生产者进行确认.),RabbitMq默认消息处理完毕之后,就进行确认.
+                      )
 """
 consumer_callback(channel, method, properties, body)
 channel: BlockingChannel
 method: spec.Basic.Deliver
 properties: spec.BasicProperties
 body: str or unicode
+只要没有确认,rabbitmq就不会将这条消息删除掉.
+消费者突然断了,rabbitmq就自动将这条消息转发给其他的消费者.（socket断了.）
+总结:生产者发送一个消息,被消费者接受到了,消费者处理完消息之后,会自动的给生产者发送一个
+确认消息,告诉生产者消息处理完毕,随后生产者才会将这条消息从队列里面进行删除，只要没有收到确认,
+就不会将这条消息进行删除,一旦消费者在处理消息期间出现故障,rabbitmq会自动将该条消息转发给其他的
+消费者.
 """
 
 
