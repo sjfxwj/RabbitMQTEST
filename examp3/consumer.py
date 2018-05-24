@@ -12,7 +12,8 @@ channel = connection.channel()  #建立管道
 # We could avoid that if we were sure that the queue already exists. For example if send.py program
 #was run before. But we're not yet sure which program to run first. In such cases it's a good
 # practice to repeat declaring the queue in both programs.
-channel.queue_declare(queue='hello2',durable=True)  #声明从哪个队列里面收消息(既然队列已经被生产者声明了,为什么我还要声明呢?)
+channel.queue_declare(queue='hello3',durable=True)  #声明从哪个队列里面收消息(既然队列已经被生产者声明了,为什么我还要声明呢?)
+#仅仅是将队列进行了持久化,消息没有进行持久化.
 
 def callback(ch,method,properties,body):  #回调函数(事件一触发,立即调用一个函数)
     print("-->",ch,method,properties)
@@ -28,7 +29,7 @@ def callback(ch,method,properties,body):  #回调函数(事件一触发,立即�
 
 channel.basic_consume( #消费消息
                       callback,        #如果收到消息,就调用callback回调函数来处理消息.
-                      queue='hello2',  #从哪个队列里面收消息
+                      queue='hello3',  #从哪个队列里面收消息
                       #no_ack=True     #先忽略 no acknowledgement(不管消息,消费者处理完了,还是没有处理完毕,都不会和生产者进行确认.),RabbitMq默认消息处理完毕之后,不会进行消息的确认,需要通过ch.basic_ack(delivery_tag=method.delivery_tag)进行确认.
                       )
 """
@@ -48,5 +49,3 @@ body: str or unicode
 
 print('[*] Waiting for messages. To exit press CTRL+C')
 channel.start_consuming()   #开始收消息,如果没有消息,将一直阻塞住.
-
-

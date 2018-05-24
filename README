@@ -69,6 +69,14 @@ Listing queues ...
 
 结果:queue没了,消息直接丢失,怎么办呢??===>
 强制将消息里面的东西进行持久化,确保rabbitmq将队列永远的保存着.
+[root@hadoop11 examp2]# rabbitmqctl list_queues
+Listing queues ...
+hello3  0
+...done.
+
+持久化之后,带我们将服务重新启动之后,队列还在,但是消息却没了。
+durable只是将队列持久化了,但是队列里面的消息却没了.
+
 
 
 

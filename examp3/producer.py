@@ -20,11 +20,16 @@ connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
 channel = connection.channel()  #声明一个管道
 
 #声明一个Queue,Queue的名字为'hello'
-channel.queue_declare(queue='hello2',durable=True)
+channel.queue_declare(queue='hello3',durable=True)
+#仅仅是将队列进行了持久化,但是消息并没有进行持久化.
+
 
 channel.basic_publish(exchange='',
-                      routing_key='hello2',  #Queue的名字:即将消息发送到这个Queue里面
-                      body='Hello World')   #消息的内容
+                      routing_key='hello3',  #Queue的名字:即将消息发送到这个Queue里面
+                      body='Hello World',
+                      properties=pika.BasicProperties(
+                          delivery_mode=2,   #make message persistent  #将消息进行持久化.
+                      ))   #消息的内容
 
 print("[x] Sent 'Hello World!'")
 connection.close()  #不是将管道关闭,而是将队列关闭???
