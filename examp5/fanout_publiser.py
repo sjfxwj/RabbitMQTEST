@@ -12,7 +12,7 @@ import pika
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
 channel = connection.channel()
 
-channel.exchange_declare(exchange='logs',type='fanout')  #logs为exchange的名字,没有声明队列
+channel.exchange_declare(exchange='logs',exchange_type='fanout')  #logs为exchange的名字,没有声明队列
 message = ' '.join(sys.argv[1:]) or 'Info:Hello World'   #生产者发送的消息
 #发布方不需要有queue,只需要有一个exchange就够了.
 
