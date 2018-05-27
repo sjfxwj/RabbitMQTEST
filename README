@@ -113,6 +113,30 @@ exchange类似于广播,是实时的,一旦发送消息,就什么也不管了.==
 
 
 
+之前我们是通过对消息的级别对消息进行的区分,如何做到更细粒度的区分呢?比如对info进行更细粒度的划分呢?
+==>即对应用程序级别进行区分呢?
+*.*.rabbit:所有已rabbit结尾的   lazy.#:所有已lazy开头的  ==>动态的过滤
+
+topic:所有符合routingKey(此时可以是一个表达式)的routingKey所bind的queue可以接收消息
+
+　　 表达式符号说明：#代表一个或多个字符，*代表任何字符
+      例：#.a会匹配a.a，aa.a，aaa.a等
+          *.a会匹配a.a，b.a，c.a等
+     注：使用RoutingKey为#，Exchange Type为topic的时候相当于使用fanout　====>
+
+     这里面有一个想收服务器端所有的广播怎么办呢? #代表一个或多个字符 python consumer.py #
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
