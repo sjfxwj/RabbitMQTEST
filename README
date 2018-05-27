@@ -150,9 +150,8 @@ self.connection.process_data_events()** #非阻塞半的start_consumer。。。
 {
    body：消息
    reply: abc  客户端在给服务端发送消息的时候,只需要在加上一个参数即可.
+   correction_id = abcdef
 }
-
-
 
 
 

@@ -20,8 +20,8 @@ class FibonacciRpcClient(object):
                                    no_ack=True,
                                    queue=self.callback_queue)  #从这个Queue里面收消息,
 
-    def on_response(self, ch, method, props, body): #?
-        if self.corr_id == props.correlation_id:
+    def on_response(self, ch, method, props, body): #这里实际上是服务器返回的消息
+        if self.corr_id == props.correlation_id:    #客户端收到的cor_id如何和收到的相当,就人为服务器端返回的结果就是自己需要的.（是自己想要的结果.）
             self.response = body  #此时self.response不等于None,只要收到消息,self.respoonse改成消息的内容.
 
     def call(self, n): #客户端在给服务器端发送指令的时候,同时带一条消息,告诉服务端将消息返回给哪个Queue.
@@ -31,7 +31,7 @@ class FibonacciRpcClient(object):
                                    routing_key='rpc_queue',  #发送一个消息到rpc_queue里面
                                    properties=pika.BasicProperties(
                                        reply_to=self.callback_queue,  #告诉服务端处理完消息之后将消息返回到这个Queue里面.
-                                       correlation_id=self.corr_id,
+                                       correlation_id=self.corr_id,   #相关性,将这个东西发给了服务器端
                                    ),
                                    body=str(n))  #发送的消息,必须传递是字符串.
         while self.response is None:    #发送消息之后就应该收结果???但是我没有写start consumer。
