@@ -14,6 +14,7 @@ channel = connection.channel()
 
 channel.exchange_declare(exchange='logs',type='fanout')  #logs为exchange的名字,没有声明队列
 message = ' '.join(sys.argv[1:]) or 'Info:Hello World'   #生产者发送的消息
+#发布方不需要有queue,只需要有一个exchange就够了.
 
 channel.basic_publish(exchange='logs',    #广播的时候不需要写Queue
                       routing_key='',     #注意:必须要写一个空
