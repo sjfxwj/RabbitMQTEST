@@ -89,6 +89,29 @@ channel.basic_consume( #消费消息
                       #no_ack=True     #先忽略 no acknowledgement(不管消息,消费者处理完了,还是没有处理完毕,都不会和生产者进行确认.),RabbitMq默认消息处理完毕之后,不会进行消息的确认,需要通过ch.basic_ack(delivery_tag=method.delivery_tag)进行确认.
                       )
 
+之前的效果都是1对1的发送,如何做到广播的效果呢?即生产者发送一条消息,所有的消费者都能收到?
+**exchange的类型决定了消息最终被怎样的处理,消息是怎么样被处理的**.(消息转发器)
+An exchange is a very simple thing. On one side it receives messages
+from producers and the other side it pushes them to queues. The exchange
+must know exactly what to do with a message it receives. Should it be
+appended to a particular queue? Should it be appended to many queues?
+Or should it get discarded. The rules for that are defined by the exchange type.
+
+====>exchange===>queue
+
+rabbitmq的内部可以有很多的exchange.
+
+fanout: 所有bind到此exchange的queue都可以接收消息,纯广播,所有绑定到exchange的都可以接受消息.
+
+原理:Queue与exchange进行绑定,生产者将消息发送到Exchange,随后Exchange将遍历一下绑定它的Queue,
+然后将消息依次发送到Queue里面,随后消费者从Queue里面接受消息并进行消费.
+注意:exchange并不会将消息直接发送给消费者,消费者只会从Queue里面取消息.
+
+
+
+
+
+
 
 
 

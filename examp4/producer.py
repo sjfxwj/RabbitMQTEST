@@ -24,7 +24,7 @@ channel.queue_declare(queue='hello3',durable=True)
 #仅仅是将队列进行了持久化,但是消息并没有进行持久化.
 
 
-channel.basic_publish(exchange='',
+channel.basic_publish(exchange='',  #什么用呢??
                       routing_key='hello3',  #Queue的名字:即将消息发送到这个Queue里面
                       body='Hello World',
                       properties=pika.BasicProperties(
